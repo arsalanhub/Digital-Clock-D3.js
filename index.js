@@ -15,12 +15,13 @@ let squareData = {
 
 let makeDigit = () => {
   let digitData = [];
-  for (let i = 1; i <= 7; i++) {
-    for (let j = 1; j <= 3; j++) {
+  for (let i = 0; i < 7; i++) {
+    for (let j = 0; j < 3; j++) {
       let currSquare = { ...squareData };
       currSquare.x = j * (currSquare.width + currSquare.margin);
       currSquare.y = i * (currSquare.width + currSquare.margin);
 
+      if (j == 1 && i > 0 && i <= 5) currSquare.color = "white";
       digitData.push(currSquare);
     }
   }
