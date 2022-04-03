@@ -122,9 +122,15 @@ let makeDigit = (d) => {
 };
 
 let clockData = [];
+let gap = 0;
 for (let i = 0; i < 6; i++) {
   let d = i * (3 * (squareData.width + squareData.margin) + 10);
-  clockData.push(makeDigit(d));
+  if (i == 2) {
+    gap += squareData.width;
+  } else if (i == 4) {
+    gap += squareData.width;
+  }
+  clockData.push(makeDigit(d + gap));
 }
 
 let virtualObjects = [];
@@ -138,6 +144,7 @@ let render = () => {
     virtualObjects[i]
       .enter()
       .append("rect")
+      .data(clockData[i])
       .attr("height", (d) => d.height)
       .attr("width", (d) => d.width)
       .attr("fill", (d) => d.color)
