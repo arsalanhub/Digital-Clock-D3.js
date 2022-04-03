@@ -159,7 +159,7 @@ let updateDigits = (digitData, s) => {
   let p = 0;
   for (let r = 0; r < 7; r++) {
     for (let c = 0; c < 3; c++) {
-      if (digits[s][r][c] === 0) digitData[p++].color = "white";
+      if (digits[s][r][c] === 0) digitData[p++].color = "black";
       else digitData[p++].color = "blue";
     }
   }
