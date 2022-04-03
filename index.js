@@ -114,7 +114,7 @@ let makeDigit = (d) => {
       currSquare.x = j * (currSquare.width + currSquare.margin) + d;
       currSquare.y = i * (currSquare.width + currSquare.margin);
 
-      //   if (j == 1 && i > 0 && i <= 5) currSquare.color = "white";
+      if (j == 1 && i > 0 && i <= 5) currSquare.color = "white";
       digitData.push(currSquare);
     }
   }
@@ -154,7 +154,7 @@ let render = () => {
   }
 };
 
-let updateDigits = (s) => {
+let updateDigits = (digitData, s) => {
   //   console.log(digitData.length);
   let p = 0;
   for (let r = 0; r < 7; r++) {
@@ -165,7 +165,16 @@ let updateDigits = (s) => {
   }
 };
 
-render();
+let updateAllDigits = (h, m, s) => {
+  updateDigits(clockData[0], Math.floor(h / 10));
+  updateDigits(clockData[1], h % 10);
+
+  updateDigits(clockData[2], Math.floor(m / 10));
+  updateDigits(clockData[3], m % 10);
+
+  updateDigits(clockData[4], Math.floor(s / 10));
+  updateDigits(clockData[5], s % 10);
+};
 
 setInterval(() => {
   let time = new Date();
@@ -173,6 +182,6 @@ setInterval(() => {
   let m = time.getMinutes();
   let s = time.getSeconds();
 
-  updateDigits(s % 10);
+  updateAllDigits(h, m, s);
   render();
 }, 1000);
