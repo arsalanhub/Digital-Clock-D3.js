@@ -106,12 +106,12 @@ let squareData = {
   margin: 5,
 };
 
-let makeDigit = () => {
+let makeDigit = (d) => {
   let digitData = [];
   for (let i = 0; i < 7; i++) {
     for (let j = 0; j < 3; j++) {
       let currSquare = { ...squareData };
-      currSquare.x = j * (currSquare.width + currSquare.margin);
+      currSquare.x = j * (currSquare.width + currSquare.margin) + d;
       currSquare.y = i * (currSquare.width + currSquare.margin);
 
       //   if (j == 1 && i > 0 && i <= 5) currSquare.color = "white";
@@ -121,27 +121,30 @@ let makeDigit = () => {
   return digitData;
 };
 
-let digitData = makeDigit();
-let render = () => {
-  let rects = svg
-    .selectAll("rect")
-    .data(digitData)
-    .attr("height", (d) => d.height)
-    .attr("width", (d) => d.width)
-    .attr("fill", (d) => d.color)
-    .attr("x", (d) => d.x)
-    .attr("y", (d) => d.y)
-    .attr("margin", (d) => d.margin);
+let clockData = [];
+for (let i = 0; i < 6; i++) {
+  let d = i * (3 * (squareData.width + squareData.margin) + 10);
+  clockData.push(makeDigit(d));
+}
 
-  rects
-    .enter()
-    .append("rect")
-    .attr("height", (d) => d.height)
-    .attr("width", (d) => d.width)
-    .attr("fill", (d) => d.color)
-    .attr("x", (d) => d.x)
-    .attr("y", (d) => d.y)
-    .attr("margin", (d) => d.margin);
+let virtualObjects = [];
+for (let i = 0; i < 6; i++) {
+  virtualObjects.push(svg.selectAll("rect").data(clockData[i]));
+}
+
+// let digitData = makeDigit();
+let render = () => {
+  for (let i = 0; i < 6; i++) {
+    virtualObjects[i]
+      .enter()
+      .append("rect")
+      .attr("height", (d) => d.height)
+      .attr("width", (d) => d.width)
+      .attr("fill", (d) => d.color)
+      .attr("x", (d) => d.x)
+      .attr("y", (d) => d.y)
+      .attr("margin", (d) => d.margin);
+  }
 };
 
 let updateDigits = (s) => {
@@ -154,6 +157,8 @@ let updateDigits = (s) => {
     }
   }
 };
+
+render();
 
 setInterval(() => {
   let time = new Date();
